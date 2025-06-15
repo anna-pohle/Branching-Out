@@ -1,11 +1,27 @@
 import json
 
+def filter_option_choice(users):
+    while True:
+        filter_option = input("What would you like to filter by? (Currently, only 'name', 'age' and 'email' are supported): ").strip().lower()
+        print("")
+        if filter_option == "name":
+            filtered_users = filter_users_by_name(users)
+            return filtered_users
+        elif filter_option == "age":
+            filtered_users = filter_users_by_age(users)
+            return filtered_users
+        elif filter_option == "email":
+            filtered_users = filter_users_by_email(users)
+            return filtered_users
+        else:
+            print("Filtering by that option is not yet supported.")
+
 
 def filter_users_by_name(users):
     name_to_search = (input("Enter a name to filter users: ").strip())
 
-    filtered_users = [user for user in users if user["name"].lower() == name_to_search.lower()]
-    return filtered_users
+    users_by_name = [user for user in users if user["name"].lower() == name_to_search.lower()]
+    return users_by_name
 
 def filter_users_by_age(users):
     while True:
@@ -16,8 +32,8 @@ def filter_users_by_age(users):
         except ValueError:
             print("Please enter a whole number.")
 
-    filtered_users = [user for user in users if user["age"] == age_to_search]
-    return filtered_users
+    users_by_age = [user for user in users if user["age"] == age_to_search]
+    return users_by_age
 
 
 def filter_users_by_email(users):
@@ -36,8 +52,8 @@ def filter_users_by_email(users):
         elif len(email_to_search.split(".")[1]) < 2:
             print("the ending after the '.' must be at least two characters long.")
         else:
-            filtered_users = [user for user in users if user["email"].lower() == email_to_search.lower()]
-            return filtered_users
+            users_by_mail = [user for user in users if user["email"].lower() == email_to_search.lower()]
+            return users_by_mail
 
 
 def main():
@@ -45,33 +61,22 @@ def main():
         users = json.load(file)
 
     while True:
-        filter_option = input("What would you like to filter by? (Currently, only 'name', 'age' and 'email' are supported): ").strip().lower()
-
-        if filter_option == "name":
-            filtered_users = filter_users_by_name(users)
-
-        elif filter_option == "age":
-            filtered_users = filter_users_by_age(users)
-
-        elif filter_option == "email":
-            filtered_users = filter_users_by_email(users)
-
-        else:
-            print("Filtering by that option is not yet supported.")
+        filtered_users = filter_option_choice(users)
 
         if len(filtered_users) == 0:
             print("No users found")
+            print("")
         else:
             for user in filtered_users:
                 print(user)
+            print("")
 
-        wish_to_continue = input("would you like filter again? (y/n)")
+        wish_to_continue = input("would you like to filter again? (y/n)")
         if "n" in wish_to_continue:
             print("Goodbye!")
             break
         else:
             continue
-
 
 
 if __name__ == "__main__":
