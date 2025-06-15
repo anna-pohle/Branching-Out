@@ -57,7 +57,7 @@ def filter_users_by_email(users):
 
 
 def main():
-    with open("users.json", "r") as file:
+    with open("./users.json", "r") as file:
         users = json.load(file)
 
     while True:
