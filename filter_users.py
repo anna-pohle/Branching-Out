@@ -28,7 +28,15 @@ if __name__ == "__main__":
         filter_users_by_name(name_to_search)
 
     elif filter_option == "age":
-        age_to_search = int(input("Enter an age to filter users by: "))
-        filter_users_by_age(age_to_search)
+        while True:
+            age_to_search = input("Enter an age to filter users by: ")
+            try:
+                age_to_search = int(age_to_search)
+            except ValueError:
+                print("Please enter a number")
+            filter_users_by_age(age_to_search)
+            break
+
+
     else:
         print("Filtering by that option is not yet supported.")
